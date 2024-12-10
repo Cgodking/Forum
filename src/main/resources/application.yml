@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/forum?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 859950085
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  mybatis:
+    mapper-locations: classpath:mapper/*.xml
+    type-aliases-package: com.example.forum.model
+    configuration:
+      map-underscore-to-camel-case: true

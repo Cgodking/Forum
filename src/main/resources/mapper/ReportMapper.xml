@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.forum.mapper.MessageMapper">
+    <insert id="insertMessage" parameterType="com.example.forum.model.Message" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `message` (sender_id, receiver_id, content, status, create_time)
+        VALUES (#{senderId}, #{receiverId}, #{content}, #{status}, NOW())
+    </insert>
+
+    <select id="findById" parameterType="long" resultType="com.example.forum.model.Message">
+        SELECT * FROM `message` WHERE id = #{id}
+    </select>
+
+    <select id="findByReceiver" parameterType="long" resultType="com.example.forum.model.Message">
+        SELECT * FROM `message` WHERE receiver_id = #{receiverId} ORDER BY create_time DESC
+    </select>
+
+    <update id="updateMessageStatus" parameterType="map">
+        UPDATE `message`
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteMessage" parameterType="long">
+        DELETE FROM `message` WHERE id = #{id}
+    </delete>
+</mapper>
