@@ -1,6 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-</beans>
+<mapper namespace="com.example.forum.mapper.CommentMapper">
+    <insert id="insertComment" parameterType="com.example.forum.entity.Comment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `comment` (post_id, user_id, parent_id, content, like_count, create_time)
+        VALUES (#{postId}, #{userId}, #{parentId}, #{content}, #{likeCount}, NOW())
+    </insert>
+
+    <select id="findById" parameterType="long" resultType="com.example.forum.entity.Comment">
+        SELECT * FROM `comment` WHERE id = #{id}
+    </select>
+
+    <select id="findByPostId" parameterType="long" resultType="com.example.forum.entity.Comment">
+        SELECT * FROM `comment` WHERE post_id = #{postId} ORDER BY create_time ASC
+    </select>
+
+    <update id="updateComment" parameterType="com.example.forum.entity.Comment">
+        UPDATE `comment`
+        <set>
+            <if test="content != null">content = #{content},</if>
+            <if test="likeCount != null">like_count = #{likeCount},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteComment" parameterType="long">
+        DELETE FROM `comment` WHERE id = #{id}
+    </delete>
+</mapper>

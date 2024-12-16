@@ -3,27 +3,31 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.forum.mapper.MessageMapper">
-    <insert id="insertMessage" parameterType="com.example.forum.model.Message" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO `message` (sender_id, receiver_id, content, status, create_time)
-        VALUES (#{senderId}, #{receiverId}, #{content}, #{status}, NOW())
+<mapper namespace="com.example.forum.mapper.ReportMapper">
+    <insert id="insertReport" parameterType="com.example.forum.entity.Report" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `report` (user_id, target_type, target_id, reason, status, create_time)
+        VALUES (#{userId}, #{targetType}, #{targetId}, #{reason}, #{status}, NOW())
     </insert>
 
-    <select id="findById" parameterType="long" resultType="com.example.forum.model.Message">
-        SELECT * FROM `message` WHERE id = #{id}
+    <select id="findById" parameterType="long" resultType="com.example.forum.entity.Report">
+        SELECT * FROM `report` WHERE id = #{id}
     </select>
 
-    <select id="findByReceiver" parameterType="long" resultType="com.example.forum.model.Message">
-        SELECT * FROM `message` WHERE receiver_id = #{receiverId} ORDER BY create_time DESC
+    <select id="findAll" resultType="com.example.forum.entity.Report">
+        SELECT * FROM `report` ORDER BY create_time DESC
     </select>
 
-    <update id="updateMessageStatus" parameterType="map">
-        UPDATE `message`
+    <select id="findByStatus" parameterType="byte" resultType="com.example.forum.entity.Report">
+        SELECT * FROM `report` WHERE status = #{status} ORDER BY create_time DESC
+    </select>
+
+    <update id="updateReportStatus" parameterType="map">
+        UPDATE `report`
         SET status = #{status}
         WHERE id = #{id}
     </update>
 
-    <delete id="deleteMessage" parameterType="long">
-        DELETE FROM `message` WHERE id = #{id}
+    <delete id="deleteReport" parameterType="long">
+        DELETE FROM `report` WHERE id = #{id}
     </delete>
 </mapper>

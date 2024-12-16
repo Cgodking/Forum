@@ -4,16 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.forum.mapper.PostMapper">
-    <insert id="insertPost" parameterType="com.example.forum.model.Post" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertPost" parameterType="com.example.forum.entity.Post" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `post` (user_id, category_id, title, content, like_count, comment_count, create_time, update_time)
         VALUES (#{userId}, #{categoryId}, #{title}, #{content}, #{likeCount}, #{commentCount}, NOW(), NOW())
     </insert>
 
-    <select id="findById" parameterType="long" resultType="com.example.forum.model.Post">
+    <select id="findById" parameterType="long" resultType="com.example.forum.entity.Post">
         SELECT * FROM `post` WHERE id = #{id}
     </select>
 
-    <select id="findAll" resultType="com.example.forum.model.Post">
+    <select id="findAll" resultType="com.example.forum.entity.Post">
         SELECT * FROM `post`
         <where>
             <if test="categoryId != null">
@@ -24,7 +24,7 @@
         LIMIT #{offset}, #{limit}
     </select>
 
-    <update id="updatePost" parameterType="com.example.forum.model.Post">
+    <update id="updatePost" parameterType="com.example.forum.entity.Post">
         UPDATE `post`
         <set>
             <if test="title != null">title = #{title},</if>
